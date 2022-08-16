@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js" integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="./Ahorradas.css">
     <title>Document</title>
 </head>
@@ -53,15 +54,78 @@
         <div class="p-3 border bg-light balance-container">
           <div class="card-body">
             <h3 class="card-title balance">Balance</h3>
-            <div class="ganancias-div"><p class="card-text">Ganancias</p><p class="ganancias-monto">+$0</p></div>
-            <div class="gastos-div"><p class="card-text">Gastos</p><p class="gastos-monto">-$0</p></div>
-            <div class="total-div"><h5 class="card-subtitle mb-2 text-muted">Total</h5><h5 class="card-subtitle mb-2 text-muted">$0</h5></div>  
+            <div class="ganancias-div" id="ganancias-div"></div>
+            <div class="gastos-div" id="gastos-div"></div>
+            <div class="total-div" id="total-div"></div>  
           </div>
       </div>
       </div>
 
-      <!-- Apartado Operaciones -->
+             <!-- Apartado Filtros -->
 
+    
+      <div class="col-4 filtros-container" id="filtros-container">
+        <div class="p-3 border bg-light filtros-container-div">
+          <div class="filtros-div">
+          <h3 class="card-title filtros">Filtros</h3>
+          <div class="oc-filtros" id="ocultar-filtros"><a href="#" class="card-link">Ocultar filtros</a></div>
+        </div>
+
+          <div class="tipo-filtro-div">
+            <h6 class="tipo-filtro">Tipo</h6>
+            <select class="form-select" aria-label="Default select example" id="filtro-tipo">
+            <option selected value="TODOS">Todos</option>
+            <option value="GASTO">Gasto</option>
+            <option value="GANANCIA">Ganancia</option>
+            </select>
+          </div>
+
+          <div class="categoria-filtro-div">
+            <h6 class="categoria-filtro">Categoría</h6>
+            <select class="form-select" aria-label="Default select example" id="filtro-categoria">
+            <option selected value="TODOS">Todos</option>
+            <option value="COMIDAS">Comidas</option>
+            <option value="SERVICIOS">Servicios</option>
+            <option value="SALIDAS">Salidas</option>
+            <option value="EDUCACION">Educación</option>
+            <option value="TRANSPORTE">Transporte</option>
+            <option value="TRABAJO">Trabajo</option>
+            </select>
+          </div>
+
+          <div class="desde-filtro-div">
+            <h6 class="desde-filtro">Desde</h6>
+            <input class="form-control" type="date" id="filtro-fecha">
+          </div>
+          
+          <div class="ocultarpor-filtro-div">
+            <h6 class="ordenarpor-filtro">Ordenar por</h6>
+            <select class="form-select" aria-label="Default select example" id="filtro-ordenar">
+            <option value="MAS RECIENTES">Más recientes</option>
+            <option value="MENOS RECIENTES">Menos recientes</option>
+            <option value="MAYOR MONTO">Mayor monto</option>
+            <option value="MENOR MONTO">Menor monto</option>
+            <option value="A/Z">A/Z</option>
+            <option value="Z/A">Z/A</option>
+            </select>
+          </div>
+        </div>
+     
+    </div>
+
+        <!-- Div vacío para ocultar filtros -->
+        <div class="d-none col-4 filtros-container" id="filtros-container2">
+          <div class="p-3 border bg-light filtros-container-div">
+            <div class="filtros-div">
+            <h3 class="card-title filtros">Filtros</h3>
+            <div class="mos-filtros" id="mostrar-filtros"><a href="#" class="card-link">Mostrar filtros</a></div>
+          </div>
+      </div>
+      </div>
+
+
+      <!-- Apartado Operaciones -->
+      <div class="row gy-4 section-container">
       <div class="col-8">
         <div class="p-3 border bg-light operaciones-container">
           <div class="card-body">
@@ -69,64 +133,31 @@
                 <h3>Operaciones</h3>
                 <button type="button" class="btn btn-primary btn-filtro" id="btn-nuevaOperacion">+ Nueva operación</button>
               </div>
-              <div><img src="undraw_savings_re_eq4w.svg" class="img-fluid mifoto" alt="Imagen ilustrativa"></div>
-              <div class="sinresultados-div">
+
+            <div id="con-operaciones" class="d-none">
+                <div class="row">
+                <div class="col-3 fw-bold">Descripción</div>
+                <div class="col-2 fw-bold">Categorías</div>
+                <div class="col-3 fw-bold">Fecha</div>
+                <div class="col-2 fw-bold">Monto</div>
+                <div class="col-2 fw-bold">Acciones</div>
+                </div>
+
+          <div id="listaOperaciones">
+          </div>
+          </div>
+
+        </div>
+
+          <div id="sin-operaciones"> 
+            <img src="undraw_savings_re_eq4w.svg" class="img-fluid mifoto" alt="Imagen ilustrativa" id="img-sinOp">
+            
+            <div class="sinresultados-div">
                 <h4>Sin resultados</h4>
                 <p>Cambia los filtros o agrega operaciones</p>
-              </div>
-          </div>
-        </div>
-      </div>
-
-       <!-- Apartado Filtros -->
-
-      <div class="col-4 filtros-container">
-        <div class="p-3 border bg-light filtros-container-div">
-          <div class="filtros-div">
-          <h3 class="card-title filtros">Filtros</h3>
-          <div class="oc-filtros"><a href="#" class="card-link">Ocultar filtros</a></div>
-        </div>
-
-          <div class="tipo-filtro-div">
-            <h6 class="tipo-filtro">Tipo</h6>
-            <select class="form-select" aria-label="Default select example">
-            <option selected>Todos</option>
-            <option value="1">Todos</option>
-            <option value="2">Gasto</option>
-            <option value="3">Ganancia</option>
-            </select>
+            </div>
           </div>
 
-          <div class="categoria-filtro-div">
-            <h6 class="categoria-filtro">Categoría</h6>
-            <select class="form-select" aria-label="Default select example">
-            <option selected>Todos</option>
-            <option value="1">Comida</option>
-            <option value="2">Servicio</option>
-            <option value="3">Salidas</option>
-            <option value="4">Educación</option>
-            <option value="5">Transporte</option>
-            <option value="6">Trabajo</option>
-            </select>
-          </div>
-
-          <div class="desde-filtro-div">
-            <h6 class="desde-filtro">Desde</h6>
-            <input class="form-control" type="date">
-          </div>
-          
-          <div class="ocultarpor-filtro-div">
-            <h6 class="ordenarpor-filtro">Ordenar por</h6>
-            <select class="form-select" aria-label="Default select example">
-            <option selected>Más recientes</option>
-            <option value="1">Más recientes</option>
-            <option value="2">Menos recientes</option>
-            <option value="3">Mayor monto</option>
-            <option value="4">Menor monto</option>
-            <option value="5">A/Z</option>
-            <option value="6">Z/A</option>
-            </select>
-          </div>
         </div>
       </div>
 
@@ -134,6 +165,9 @@
   </div>
 
 </section>
+
+
+
 
 <!-- Apartado Nueva Operación -->
 
@@ -145,32 +179,31 @@
 
         <div class="mb-3 nueva-operacion">
           <h6 for="exampleFormControlInput1" class="form-label">Descripción</h6>
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+          <input type="text" class="form-control" id="inputDescripcion-Op" placeholder="">
         </div>
 
         <div class="mb-3 nueva-operacion">
           <h6 for="exampleFormControlInput1" class="form-label">Monto</h6>
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+          <input type="text" class="form-control" id="inputMonto-Op" placeholder="">
         </div>
 
         <div class="mb-3 nueva-operacion">
         <h6 for="exampleFormControlInput1" class="form-label tipo-nueva-op">Tipo</h6>
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Gasto</option>
-          <option value="1">Gasto</option>
-          <option value="2">Ganancia</option>
+        <select class="form-select" aria-label="Default select example" id="selectTipo-Op">
+          <option value="GASTO">Gasto</option>
+          <option value="GANANCIA">Ganancia</option>
         </select>
        </div>
 
        <div class="mb-3 nueva-operacion">
         <h6 for="exampleFormControlInput1" class="form-label categoria-nueva-op">Categoría</h6>
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Servicios</option>
-          <option value="1">Salidas</option>
-          <option value="2">Educación</option>
-          <option value="2">Transporte</option>
-          <option value="2">Trabajo</option>
-          <option value="2">Comidas</option>
+        <select class="form-select" aria-label="Default select example" id="selectCategoria-Op">
+          <option value="COMIDAS">Comidas</option>
+          <option value="SERVICIOS">Servicios</option>
+          <option value="SALIDAS">Salidas</option>
+          <option value="EDUCACION">Educación</option>
+          <option value="TRANSPORTE">Transporte</option>
+          <option value="TRABAJO">Trabajo</option>
         </select>
       </div>
 
@@ -178,22 +211,78 @@
       <div class="mb-3 nueva-operacion">
         <div class="desde-filtro-div">
           <h6 class="fecha-nueva-op">Fecha</h6>
-          <input class="form-control" type="date">
+          <input class="form-control" type="date" id="inputFecha-op">
         </div>
       </div>
 
         <div class="editar-eliminar">
           <button type="button" class="btn btn-outline-secondary btn-cancelar" id="btnCandelarNuevaOp">Cancelar</button>
-          <button type="button" class="btn btn-outline-success">Editar</button>
+          <button type="button" class="btn btn-outline-success" id="btnAgregarNuevaOp">Agregar</button>
        </div>
 
       </div>
 
       </section>
 
+
+<!-- Apartado Editar Operación -->
+
+<section class="section-nuevaop">
+
+  <div class="d-none col-8 nuevaop-container" id="vistaEditarOperacion">
+
+    <h2 class="card-title categorias-titulo">Editar Operación</h2>
+
+    <div class="mb-3 nueva-operacion">
+      <h6 for="exampleFormControlInput1" class="form-label">Descripción</h6>
+      <input type="text" class="form-control" id="inputEditarDescripcion" placeholder="">
+    </div>
+
+    <div class="mb-3 nueva-operacion">
+      <h6 for="exampleFormControlInput1" class="form-label">Monto</h6>
+      <input type="text" class="form-control" id="inputEditarMonto" placeholder="">
+    </div>
+
+    <div class="mb-3 nueva-operacion">
+    <h6 for="exampleFormControlInput1" class="form-label tipo-nueva-op">Tipo</h6>
+    <select class="form-select" aria-label="Default select example" id="inputEditarTipo">
+      <option value="GASTO">Gasto</option>
+      <option value="GANANCIA">Ganancia</option>
+    </select>
+   </div>
+
+   <div class="mb-3 nueva-operacion">
+    <h6 for="exampleFormControlInput1" class="form-label categoria-nueva-op">Categoría</h6>
+    <select class="form-select" aria-label="Default select example" id="inputEditarCategoria">
+      <option value="COMIDAS">Comidas</option>
+      <option value="SERVICIOS">Servicios</option>
+      <option value="SALIDAS">Salidas</option>
+      <option value="EDUCACION">Educación</option>
+      <option value="TRANSPORTE">Transporte</option>
+      <option value="TRABAJO">Trabajo</option>
+    </select>
+  </div>
+
+
+  <div class="mb-3 nueva-operacion">
+    <div class="desde-filtro-div">
+      <h6 class="fecha-nueva-op">Fecha</h6>
+      <input class="form-control" type="date" id="inputEditarFecha">
+    </div>
+  </div>
+
+    <div class="editar-eliminar">
+      <button type="button" class="btn btn-outline-secondary btn-cancelar" id="btnCancelarEditado">Cancelar</button>
+      <button type="button" class="btn btn-outline-success" id="btnEditarOperacion">Editar</button>
+   </div>
+
+  </div>
+
+  </section>
+
 <!-- Apartado Categoria -->
 
-<section class="section-categorias" id="section-categorias">
+<section class="section-categorias pt-1" id="section-categorias">
 
    <div class="d-none col-6 categorias-container" id="vistaCategorias">
     <div class="p-4 border bg-light">
@@ -202,11 +291,12 @@
 
         <label for="basic-url" class="form-label">Nombre</label>
         <div class="hstack gap-3">
-          <input class="form-control me-auto" type="text" placeholder="Agregar categoría" aria-label="Add your item here...">
-          <button type="button" class="btn btn-secondary btn-agregar-categoria">Submit</button>
+          <input class="form-control me-auto" id= "input-agregar-categoria"type="text" placeholder="Agregar categoría" aria-label="Add your item here...">
+          <button type="button" class="btn btn-secondary btn-agregar-categoria" id="btnAgregarCategoria">Agregar</button>
         </div>
-   
-        <div class="categorias-div">
+        
+        <div class="listaCategorias" id="listaCategorias">
+          <div class="categorias-div">
           <div>
           <p class="card-text cat1">Comida</p>
         </div>
@@ -260,7 +350,7 @@
           <p class="borrar-p"><a href="#">Borrar</a></p>
         </div>
         </div>
-  
+        </div>
     
       </div>
   </div>

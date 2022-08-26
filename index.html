@@ -82,14 +82,14 @@
 
           <div class="categoria-filtro-div">
             <h6 class="categoria-filtro">Categoría</h6>
-            <select class="form-select" aria-label="Default select example" id="filtro-categoria">
-            <option selected value="TODOS">Todos</option>
+            <select class="form-select select-categorias select-filtros" aria-label="Default select example" id="filtro-categoria">
+            <!-- <option selected value="TODOS">Todos</option>
             <option value="COMIDAS">Comidas</option>
             <option value="SERVICIOS">Servicios</option>
             <option value="SALIDAS">Salidas</option>
             <option value="EDUCACION">Educación</option>
             <option value="TRANSPORTE">Transporte</option>
-            <option value="TRABAJO">Trabajo</option>
+            <option value="TRABAJO">Trabajo</option> -->
             </select>
           </div>
 
@@ -197,13 +197,13 @@
 
        <div class="mb-3 nueva-operacion">
         <h6 for="exampleFormControlInput1" class="form-label categoria-nueva-op">Categoría</h6>
-        <select class="form-select" aria-label="Default select example" id="selectCategoria-Op">
-          <option value="COMIDAS">Comidas</option>
+        <select class="form-select select-categorias" aria-label="Default select example" id="selectCategoria-Op">
+          <!-- <option value="COMIDAS">Comidas</option>
           <option value="SERVICIOS">Servicios</option>
           <option value="SALIDAS">Salidas</option>
           <option value="EDUCACION">Educación</option>
           <option value="TRANSPORTE">Transporte</option>
-          <option value="TRABAJO">Trabajo</option>
+          <option value="TRABAJO">Trabajo</option> -->
         </select>
       </div>
 
@@ -253,13 +253,13 @@
 
    <div class="mb-3 nueva-operacion">
     <h6 for="exampleFormControlInput1" class="form-label categoria-nueva-op">Categoría</h6>
-    <select class="form-select" aria-label="Default select example" id="inputEditarCategoria">
-      <option value="COMIDAS">Comidas</option>
+    <select class="form-select select-categorias" aria-label="Default select example" id="inputEditarCategoria">
+      <!-- <option value="COMIDAS">Comidas</option>
       <option value="SERVICIOS">Servicios</option>
       <option value="SALIDAS">Salidas</option>
       <option value="EDUCACION">Educación</option>
       <option value="TRANSPORTE">Transporte</option>
-      <option value="TRABAJO">Trabajo</option>
+      <option value="TRABAJO">Trabajo</option> -->
     </select>
   </div>
 
@@ -296,7 +296,7 @@
         </div>
         
         <div class="listaCategorias" id="listaCategorias">
-          <div class="categorias-div">
+          <!-- <div class="categorias-div">
           <div>
           <p class="card-text cat1">Comida</p>
         </div>
@@ -349,7 +349,7 @@
           <p class="editar-p"><a href="#">Editar</a></p>
           <p class="borrar-p"><a href="#">Borrar</a></p>
         </div>
-        </div>
+        </div> -->
         </div>
     
       </div>
@@ -369,12 +369,12 @@
 
         <label for="basic-url" class="form-label">Nombre</label>
         <div class="hstack gap-3">
-          <input class="form-control me-auto" type="text" placeholder="" aria-label="Add your item here...">
+          <input class="form-control me-auto" id="input-editar-categoria" type="text" placeholder="" aria-label="Add your item here...">
         </div>
 
         <div class="editar-eliminar">
-          <button type="button" class="btn btn-outline-secondary btn-cancelar">Cancelar</button>
-          <button type="button" class="btn btn-outline-success">Editar</button>
+          <button type="button" class="btn btn-outline-secondary btn-cancelar" id="cancelar-categoria">Cancelar</button>
+          <button type="button" class="btn btn-outline-success" id="confirmar-categoria">Editar</button>
        </div>
       
 
@@ -391,6 +391,7 @@
         <div class="operaciones-div">
           <h1 class="reportes-tit">Reportes</h1>
         </div>
+        <div class="sin-reportes" id="sin-reportes">
         <div class="reportes-img">
           <img src="undraw_project_complete_lwss.svg" class="img-fluid mifoto" alt="Imagen ilustrativa">
         </div>
@@ -398,6 +399,110 @@
           <h4>Operaciones insuficientes</h4>
           <p>Prueba agregando más operaciones</p>
         </div>
+      </div>
+
+      <div class="con-reportes" id="con-reportes">
+
+        <!-- RESUMEN -->
+
+        <section id="resumen">
+        <h4>Resumen</h4>
+
+        <!-- Categoría con mayor ganancia -->
+
+        <div class="d-flex flex-row">
+        <div class="col-4">
+            Categoría con mayor ganancia
+          </div>
+          <div id="categoria-mayor-ganancia" class="col-8 d-flex flex-row align-items-center">
+          </div>
+        </div>
+
+
+        <!-- Categoría con mayor gasto -->
+        <div class="d-flex flex-row">
+          <div class="col-4">
+            Categoría con mayor gasto
+          </div>
+          <div id="categoria-mayor-gasto" class="col-8 d-flex flex-row align-items-center">
+          </div>
+        </div>
+
+        <!-- Categoría con mayor balance -->
+        <div>
+          <div>
+            Categoría con mayor balance
+          </div>
+          <div>
+            <span id="categoria-mayor-balance">
+            </span>
+          </div>
+          <div id="categoria-mayor-ganancia-balance">
+
+          </div>
+        </div>        
+
+        <!-- Mes con mayor ganancia -->
+        <div>
+          <div>
+            Mes con mayor ganancia
+          </div>
+          <div>
+            <span id="mes-mayor-ganancia">
+            </span>
+          </div>
+          <div id="mes-mayor-ganancia-monto">
+
+          </div>
+        </div>      
+        
+        <!-- Mes con mayor gasto -->
+        <div>
+          <div>
+            Mes con mayor gasto
+          </div>
+          <div>
+            <span id="mes-mayor-gasto">
+            </span>
+          </div>
+          <div id="mes-mayor-gasto-monto">
+
+          </div>
+        </div> 
+      </section>
+
+      <!-- TOTALES POR CATEGORIA -->
+        <section>
+          <h4>
+            Totales por categoría
+          </h4>
+          <div id="reportes-categorias">
+              <div class="row pt-3 fw-bold">
+                <span class="col-3">Categorías</span>
+                <span class="col-3"><p>Ganancias</p></span>
+                <span class="col-3">Gastos</span>
+                <span class="col-3">Balance</span> 
+                </div>
+          </div>
+        </section>
+
+
+      <!-- TOTALES POR MES -->
+        <section>
+          <h4>
+            Totales por mes
+          </h4>
+          <div id="reportes-mes">
+            <div class="row pt-3 fw-bold">
+              <span class="col-3">Mes</span>
+              <span class="col-3"><p>Ganancias</p></span>
+              <span class="col-3">Gastos</span>
+              <span class="col-3">Balance</span> 
+              </div>
+          </div>
+        </section>
+
+      </div>
     </div>
   </div>
 </div>

@@ -55,17 +55,19 @@ const selectCategorias = document.getElementsByClassName('select-categorias');
 const vistaEditarCategorias = document.getElementById('vistaEditarCategorias');
 const cancelarCategoria = document.getElementById('cancelar-categoria')
 const inputEditarCat = document.getElementById('input-editar-categoria')
+const confirmarCategoriaBtn = document.getElementById('confirmar-categoria');
 
 
 /*************************************************
                     OPERACIONES
 *************************************************/
 
+const obtenerOperaciones = () =>{
+return JSON.parse(localStorage.getItem('operaciones')) || [];
+}
 
-let operaciones = JSON.parse(localStorage.getItem('operaciones')) || [];
- console.log(operaciones)
-
-
+let operaciones = obtenerOperaciones();
+console.log(operaciones)
 
 /*Mostrar panel con operaciones y ocultar panel sin operaciones*/
 
@@ -105,10 +107,7 @@ const mostrarOperaciones = (arr) => {
         conReportes.classList.remove('d-none');
         sinReportes.classList.add('d-none');
 
-        totalPorMes(operaciones);
-        totalPorCategoria(operaciones, categorias)
-        categoriaMayorGanancia(operaciones, categorias)
-        categoriaMayorGasto(operaciones, categorias)
+
     }
 
 })
@@ -293,6 +292,7 @@ btnEditar.forEach(btn => {
                     FILTROS
 *************************************************/
 
+
 /*Funcionalidad de ocultar panel de filtros*/
 
 ocultarFiltros.addEventListener('click', () =>{
@@ -306,98 +306,89 @@ mostrarFiltros.addEventListener('click', ()=> {
     filtrosContainer2.classList.add('d-none');   
 })
 
-/*Funcionalidad de filtrar por Tipo*/
+/*Funcionalidad de filtrar y ordenar*/
 
-filtroTipo.addEventListener('change', (e) => {
-
-    if(e.target.value !== 'TODOS'){
-    const filtroPorTipo = operaciones.filter(operacion => operacion.tipo === e.target.value)    
-   
-    // operaciones = filtroPorTipo
-    pintarOperaciones(filtroPorTipo)
+const filtros = (e) => {
+    const porCategoria = filtroCategoria.value;
+    const porTipo = filtroTipo.value;
+    const porFecha = new Date(filtroFecha.value);
     
-    } else{
-    pintarOperaciones(operaciones)
+    let operaciones = obtenerOperaciones();
 
+    if(porFecha !== new Date()){
+        operaciones = operaciones.filter(operacion => new Date(operacion.fecha) >= porFecha)
+     }
+
+    if(porTipo !== 'TODOS'){
+        operaciones = operaciones.filter(operacion => operacion.tipo === porTipo)
     }
-     
-  })
 
-/*Funcionalidad de filtrar por Categoría*/
-
-filtroCategoria.addEventListener('change', (e) => {
-    if(e.target.value !== 'TODOS'){
-    const filtroPorCategoria = operaciones.filter(operacion => operacion.categoria === e.target.value)    
-    // operaciones = filtroPorTipo
-    pintarOperaciones(filtroPorCategoria)
-    
-    } else{
-    pintarOperaciones(operaciones)
-
+    if(porCategoria !== 'TODOS'){
+        operaciones = operaciones.filter(operacion => operacion.categoria === porCategoria) 
     }
-     
-  })
 
-/*Funcionalidad de filtrar por fecha*/
-
-  filtroFecha.addEventListener('change', (e) => {
-
-    const filtradasPorFecha = operaciones.filter(operacion => new Date(operacion.fecha) >= new Date(e.target.value))
-    console.log(filtradasPorFecha)
-
-    pintarOperaciones(filtradasPorFecha)
-    
-    })
-
-
-/*Funcionalidad de ordenar*/
-
-filtroOrdenar.addEventListener('change', () => {
+ 
     if(filtroOrdenar.value === 'MENOR MONTO'){
-        const menorMonto = operaciones.sort(
+        operaciones = operaciones.sort(
             (a,b) => Number(a.monto) - Number(b.monto)
-        );
-    pintarOperaciones(menorMonto) 
-}
+            );
+    }
+
     if(filtroOrdenar.value === 'MAYOR MONTO'){
-        const mayorMonto = operaciones.sort(
+        operaciones = operaciones.sort(
             (a,b) => Number(b.monto) - Number(a.monto)
-        );
-    pintarOperaciones(mayorMonto) 
-}
+            );
+    }
+
     if(filtroOrdenar.value === 'A/Z'){
-     const aZ = operaciones.sort((a,b) => {
+        operaciones = operaciones.sort((a,b) => {
             if(a.descripcion.toLowerCase() < b.descripcion.toLowerCase()){
                 return-1
             }
-     })     
-    pintarOperaciones(aZ) 
-}
+        })     
+    }
+    if(filtroOrdenar.value === 'Z/A'){
+        operaciones = operaciones.sort((a,b) => {
+            if(a.descripcion.toLowerCase() > b.descripcion.toLowerCase()){
+                return-1
+            }
+        })     
+    }
 
-if(filtroOrdenar.value === 'Z/A'){
-    const zA = operaciones.sort((a,b) => {
-           if(a.descripcion.toLowerCase() > b.descripcion.toLowerCase()){
-               return-1
-           }
-    })     
-   pintarOperaciones(zA) 
-}
-    
-if(filtroOrdenar.value === 'MAS RECIENTES'){
-        const masRecientes = operaciones.sort(
-            (a,b) => new Date(a.fecha) - new Date(b.fecha)
+    if(filtroOrdenar.value === 'MAS RECIENTES'){
+        operaciones = operaciones.sort((a,b) => 
+        new Date(a.fecha) - new Date(b.fecha)
+            );
+    }
+
+    if(filtroOrdenar.value === 'MENOS RECIENTES'){
+        operaciones = operaciones.sort((a,b) => 
+        new Date(b.fecha) - new Date(a.fecha)
         );
-    pintarOperaciones(masRecientes) 
+    }
+
+    pintarOperaciones(operaciones)
+      
 }
 
-if(filtroOrdenar.value === 'MENOS RECIENTES'){
-    const menosRecientes = operaciones.sort(
-        (a,b) => new Date(b.fecha) - new Date(a.fecha)
-    );
-pintarOperaciones(menosRecientes) 
-}
+filtroCategoria.addEventListener('change', filtros);
+filtroTipo.addEventListener('change', filtros);
+filtroFecha.addEventListener('change', filtros);
+filtroOrdenar.addEventListener('change', filtros);
 
-})
+
+/*Funcionalidad de filtrar por fecha*/
+
+//   filtroFecha.addEventListener('change', (e) => {
+    
+//     const filtradasPorFecha = operaciones.filter(operacion => new Date(operacion.fecha) >= new Date(e.target.value))
+//     console.log(e.target.value)
+
+//     pintarOperaciones(filtradasPorFecha)
+    
+//     })
+
+
 
 
 /*************************************************
@@ -407,6 +398,7 @@ pintarOperaciones(menosRecientes)
 const totalesBalance = arr => {
     const operGanancias = arr.filter(operacion => operacion.tipo === 'GANANCIA').reduce((prev, current) =>
     prev + Number(current.monto), 0)
+    console.log(arr)
 
     gananciasDiv.innerHTML=
     `<div  class="d-flex justify-content-start fs-6 textt">Ganancias</div>
@@ -419,11 +411,11 @@ const totalesBalance = arr => {
     `<div  class="d-flex justify-content-start fs-6 text">Gastos</div>
     <div class="d-flex justify-content-end gastos-monto fs-6 text">-$${operGastos}</div>`
 
-    const totalesOp = (operGanancias + operGastos)
+    const totalesOp = (operGanancias - operGastos)
 
     totalDiv.innerHTML=
     `<div  class="card-subtitle mb-2 text-muted fs-4 text">Total</div>
-    <div class="d-flex justify-content-end fs-4 text">$${totalesOp}</div>`
+    <div class="d-flex justify-content-end fs-4 text">${totalesOp  > "0" ? "+" : "-"}$${Math.abs(totalesOp)}</div>`
 }
 
 
@@ -484,7 +476,7 @@ let categorias = JSON.parse(localStorage.getItem('categorias')) || [
      localStorage.setItem('categorias', JSON.stringify(categorias))
 
      cargarSelects(JSON.parse(localStorage.getItem(categorias)))
-    // console.log(categorias)
+
     }) 
     
 
@@ -525,17 +517,25 @@ const cargarSelects = () =>{
     btnBorrarCat.forEach(btn => {
      
       btn.addEventListener('click', e => {    
-          let categoriaBorrada = categorias.filter(categoria => categoria.id !== e.target.dataset.id)
-          console.log(categoriaBorrada)
-         localStorage.setItem('categorias', JSON.stringify(categoriaBorrada))
+        const obtenerCategoria = categorias.find((categoria) => categoria.id === e.target.dataset.id).nombre;
+        let categoriaBorrada = categorias.filter(categoria => categoria.id !== e.target.dataset.id)
+
+        localStorage.setItem('categorias', JSON.stringify(categoriaBorrada))
         categorias = JSON.parse(localStorage.getItem('categorias'))
-      
+
+        const eliminarOperacion = operaciones.filter((operaciones) => operaciones.categoria !== obtenerCategoria)
+
         cargarSelects(categorias)
+
+        localStorage.setItem('operaciones', JSON.stringify(eliminarOperacion))
+        operaciones = JSON.parse(localStorage.getItem('operaciones'))
+        
+        pintarOperaciones(operaciones)
      })
 
     })
 
-/*Funcionalidad de Editar operacion agregada*/
+/*Funcionalidad de Editar categoria agregada*/
 
 const btnEditarCat = document.querySelectorAll('.editar-cat');
 
@@ -543,34 +543,34 @@ btnEditarCat.forEach(btn => {
 
     btn.addEventListener('click', e => {
         let categoriaEditada = categorias.filter(categoria => categoria.id === e.target.dataset.id);
-
+        console.log(categoriaEditada[0])
         editarCategoria(categoriaEditada)    
 
-        // btnEditarOperacion.addEventListener('click', () =>{
+        inputEditarCat.value = categoriaEditada[0].nombre;
+
+         confirmarCategoriaBtn.addEventListener('click', () =>{
             
-        //     const  filtrar = operaciones.filter(operacion => operacion.id === editado[0].id)
-        //     const operacionEditada = filtrar[0]
-            
-        //     operacionEditada.descripcion = inputEditarDescripcion.value;
-        //     operacionEditada.id = editado[0].id;
-        //     operacionEditada.monto = inputEditarMonto.value;
-        //     operacionEditada.tipo = inputEditarTipo.value;
-        //     operacionEditada.categoria = inputEditarCategoria.value;
-        //     operacionEditada.fecha = inputEditarFecha.value;
-        
-        //     vistaBalance.classList.remove('d-none')
-        //     vistaEditarOperacion.classList.add('d-none')
+            const  filtrarCat = categorias.filter(categoria => categoria.id === categoriaEditada[0].id)
 
-        //     const nuevasOp = operaciones.map((operacion) => 
-        //     operacion.id === editado[0].id
-        //     ? operacionEditada
-        //     : operacion
-        //     )
+            const categoriaAEditar = filtrarCat[0]
+              
+            categoriaAEditar.nombre = inputEditarCat.value;
+          
+            vistaCategorias.classList.remove('d-none')
+            vistaEditarCategorias.classList.add('d-none')
 
-        //     localStorage.setItem('operaciones', JSON.stringify(nuevasOp));
-        //     const operacionesEditadas = JSON.parse(localStorage.getItem('operaciones'))
+             const nuevasCategorias = categorias.map((categoria) => 
+             categoria.id === categoriaEditada[0].id
+             ? categoriaAEditar
+             : categoria
+             )
 
-        //     pintarOperaciones(operacionesEditadas)
+             console.log(nuevasCategorias)
+
+             localStorage.setItem('categorias', JSON.stringify(nuevasCategorias));
+             const catEditadas = JSON.parse(localStorage.getItem('categorias'))
+
+             cargarSelects(catEditadas)
 
         })
 
@@ -581,28 +581,27 @@ btnEditarCat.forEach(btn => {
          })
 
      })
-// })
+ })
 
-// }
+
 
  const editarCategoria = arr => {
-    
     if(arr.length === 0) return
     
     vistaCategorias.classList.add('d-none')
     vistaEditarCategorias.classList.remove('d-none')
 
-    // inputEditarCat.value = categorias.nombre;
-
  }
 }
 
-// console.log(categorias)
+
 
 
 /*************************************************
                  RESUMEN REPORTES
 *************************************************/
+
+  /*Categporía con mayor ganancia*/
 
 const categoriaMayorGanancia = (operaciones) => {
     document.getElementById('categoria-mayor-ganancia').innerHTML=''
@@ -610,16 +609,16 @@ const categoriaMayorGanancia = (operaciones) => {
 
     const porCategoriaGananciaResumen = operaciones.filter(operacion => operacion.tipo === 'GANANCIA').sort(
         (a,b) => Number(b.monto) - Number(a.monto))
-         
-    // console.log(porCategoriaGananciaResumen)
 
             str = str +
-            `<div class="col-4">${porCategoriaGananciaResumen[0].categoria}</div>
-            <div class="col-4">$${porCategoriaGananciaResumen[0].monto}</div>`
+            `<div class="col-4 cat1">${porCategoriaGananciaResumen[0].categoria}</div>
+            <div class="col-4 green">$${porCategoriaGananciaResumen[0].monto}</div>`
 
             document.getElementById('categoria-mayor-ganancia').innerHTML= str;
     
         }
+
+/*Categporía con mayor gasto*/
 
 const categoriaMayorGasto = (operaciones) => {
         document.getElementById('categoria-mayor-gasto').innerHTML=''
@@ -629,45 +628,72 @@ const categoriaMayorGasto = (operaciones) => {
             (a,b) => Number(b.monto) - Number(a.monto))
         
                 str = str +
-                `<div class="col-4">${porCategoriaGastoResumen[0].categoria}</div>
-                <div class="col-4">$${porCategoriaGastoResumen[0].monto}</div>`
+                `<div class="col-4 cat1">${porCategoriaGastoResumen[0].categoria}</div>
+                <div class="col-4 red">$${porCategoriaGastoResumen[0].monto}</div>`
         
                 document.getElementById('categoria-mayor-gasto').innerHTML= str;
             
             }  
 
-        
+/*Mes con mayor ganancia y mes con mayor gasto*/
+
+const mesMayorOperacion = (operaciones) =>{
+    
+    const mayorMonto = operaciones.sort((a,b) => Number(b.monto) - Number(a.monto));
+    
+    const mayorGanancia = mayorMonto.filter((operacion)=> operacion.tipo === 'GANANCIA');
+    const mayorGasto = mayorMonto.filter((operacion)=> operacion.tipo === 'GASTO');
+
+    document.getElementById('mes-mayor-ganancia').innerHTML= `
+    <div class="col-4 cat1">${mayorGanancia[0].fecha.split('-')[1]}</div>
+    <div class="col-4 green">$${mayorGanancia[0].monto}</div>`
+
+    document.getElementById('mes-mayor-gasto').innerHTML= `
+    <div class="col-4 cat1">${mayorGasto[0].fecha.split('-')[1]}</div>
+    <div class="col-4 red">$${mayorGasto[0].monto}</div>`
+
+}
+
+  /*Totales por categoria*/    
 
 const totalPorCategoria = (operaciones, categorias) => {
-    //  console.log(operaciones)
-    //  console.log(categorias)
   
-     categorias.forEach(categoria => {
+     const conBalance = categorias.map(categoria => {
       const porCategoria = operaciones.filter(operacion => operacion.categoria === categoria.nombre)
       const categoriasNombre = categoria.nombre;
 
       const porCategoriaGanancia = porCategoria.filter(operacion => operacion.tipo === 'GANANCIA').reduce((count, current) => count + Number(current.monto) ,0)
       const operacionTipo = operaciones.tipo;
-
-    //   console.log(`la ganancia de la categoria  ${categoria.nombre} es de ${porCategoriaGanancia}`)
       
       const porCategoriaGasto = porCategoria.filter(operacion => operacion.tipo === 'GASTO').reduce((count, current) => count + Number(current.monto) ,0)
-
+    
       const totalPorCategoriaBalance = porCategoriaGanancia - porCategoriaGasto;
 
-    //    console.log(`EL gasto de la categoria  ${categoria.nombre} es de ${porCategoriaGasto}`)
+      reportesCategorias.innerHTML+=
+      `<div class="row pt-3">
+      <span class="col-3">${categoriasNombre}</span>
+      <span class="col-3"><p>${porCategoriaGanancia}</p></span>
+      <span class="col-3">${porCategoriaGasto}</span>
+      <span class="col-3">${totalPorCategoriaBalance}</span> 
+      </div>`
 
-    // console.log(`El balance de la categoria  ${categoria.nombre} es de ${porCategoriaGanancia - porCategoriaGasto}`)
-    reportesCategorias.innerHTML+=
-    `<div class="row pt-3">
-    <span class="col-3">${categoriasNombre}</span>
-    <span class="col-3"><p>${porCategoriaGanancia}</p></span>
-    <span class="col-3">${porCategoriaGasto}</span>
-    <span class="col-3">${totalPorCategoriaBalance}</span> 
-    </div>`
+      return{
+        ...categoria,
+        balance: porCategoriaGanancia - porCategoriaGasto
+      }
     })
 
+    /*Categoría con mayor balance*/
+
+    const result = conBalance.sort((a,b)=> b.balance - a.balance)
+
+    document.getElementById('categoria-mayor-balance').innerHTML +=`
+    <div class="col-4 cat1">${result[0].nombre}</div>
+    <div class="col-4">$${result[0].balance}</div>`
+
   }
+
+  /*Totales por mes*/
 
   const totalPorMes = arr => {
     const mesesSinRepetir = [...new Set(arr.map(operacion => 
@@ -676,7 +702,7 @@ const totalPorCategoria = (operaciones, categorias) => {
     for (let i = 0; i < mesesSinRepetir.length; i++) {  
       const operacionesPorMes = arr.filter(operacion => operacion.fecha.split('-')[1] === mesesSinRepetir[i])
       const meses = mesesSinRepetir[i];
-    //   console.log(meses)
+
       const porTipoGanancia = operacionesPorMes.filter(operacion => 
         operacion.tipo === 'GANANCIA' ).reduce((count, current) => count + Number(current.monto) ,0)
    
@@ -684,9 +710,6 @@ const totalPorCategoria = (operaciones, categorias) => {
         operacion.tipo === 'GASTO' ).reduce((count, current) => count + Number(current.monto) ,0)
     
         const totalPorMesBalance = porTipoGanancia - porTipoGasto;
-    
-        // console.log(`Esto sería del mes ${mesesSinRepetir[i]} tenemos el total de Ganancia de: ${porTipoGanancia}`)
-        // console.log(`Esto sería del mes ${mesesSinRepetir[i]} tenemos el total de Gasto de: ${porTipoGasto}`)
 
         reportesMes.innerHTML+=
         `<div class="row pt-3">
@@ -711,10 +734,11 @@ const inicializar =() =>{
     mostrarOperaciones(operaciones);
     pintarOperaciones(operaciones);
     cargarSelects(categorias);
-    // totalPorMes(operaciones);
-    // totalPorCategoria(operaciones, categorias)
-    // categoriaMayorGanancia(operaciones, categorias)
-    // categoriaMayorGasto(operaciones, categorias)
+    totalPorMes(operaciones);
+    totalPorCategoria(operaciones, categorias)
+    categoriaMayorGanancia(operaciones, categorias)
+    categoriaMayorGasto(operaciones, categorias)
+    mesMayorOperacion(operaciones)
 }
 
 window.onload = inicializar

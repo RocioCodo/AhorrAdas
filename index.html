@@ -5,7 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js" integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -35,12 +43,37 @@
         <i class="fa-solid fa-chart-pie"></i>
         Reportes
       </a>
-    </div>  
+    </div>
+
+    <div id="btn-burguer" class="btn-burguer">
+      <button class="navbar-toggler text-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h4 class="offcanvas-title" id="offcanvasNavbarLabel"><i class="fa-solid fa-wallet"></i> AhorrAdas</h4>
+          <button type="button" class="btn-close burguer-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body fs-5 text">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#vistaBalance" id="link-balance"><i class="fa-solid fa-chart-line"></i> Balance</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#vistaCategorias" id="link-categorias"><i class="fa-solid fa-tag"></i> Categorías</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#vistaReportes" id="link-reportes"><i class="fa-solid fa-chart-pie"></i> Reportes</a>
+            </li>
+        </div>
+      </div>
     </div>
   </nav>
 
-<!-- SECTIONS -->
 
+   
+
+<!-- SECTIONS -->
 
 <section class="section-balance">
 
@@ -50,7 +83,7 @@
 
       <!-- Apartado Balance -->
 
-      <div class="col-4">
+      <div class="col-lg-4 col-md-12">
         <div class="p-3 border bg-light balance-container">
           <div class="card-body">
             <h3 class="card-title balance">Balance</h3>
@@ -64,7 +97,7 @@
              <!-- Apartado Filtros -->
 
     
-      <div class="col-4 filtros-container" id="filtros-container">
+      <div class="col-lg-4 col-md-12 filtros-container" id="filtros-container">
         <div class="p-3 border bg-light filtros-container-div">
           <div class="filtros-div">
           <h3 class="card-title filtros">Filtros</h3>
@@ -83,13 +116,6 @@
           <div class="categoria-filtro-div">
             <h6 class="categoria-filtro">Categoría</h6>
             <select class="form-select select-categorias select-filtros" aria-label="Default select example" id="filtro-categoria">
-            <!-- <option selected value="TODOS">Todos</option>
-            <option value="COMIDAS">Comidas</option>
-            <option value="SERVICIOS">Servicios</option>
-            <option value="SALIDAS">Salidas</option>
-            <option value="EDUCACION">Educación</option>
-            <option value="TRANSPORTE">Transporte</option>
-            <option value="TRABAJO">Trabajo</option> -->
             </select>
           </div>
 
@@ -126,7 +152,7 @@
 
       <!-- Apartado Operaciones -->
       <div class="row gy-4 section-container">
-      <div class="col-8">
+      <div class="col-lg-8 col-md-12">
         <div class="p-3 border bg-light operaciones-container">
           <div class="card-body">
               <div class="operaciones-div">
@@ -173,7 +199,7 @@
 
     <section class="section-nuevaop">
 
-      <div class="d-none col-8 nuevaop-container" id="vistaNuevaOperacion">
+      <div class="d-none col-lg-8 col-md-12 col-sm-12 nuevaop-container" id="vistaNuevaOperacion">
 
         <h2 class="card-title categorias-titulo">Nueva Operación</h2>
 
@@ -198,12 +224,6 @@
        <div class="mb-3 nueva-operacion">
         <h6 for="exampleFormControlInput1" class="form-label categoria-nueva-op">Categoría</h6>
         <select class="form-select select-categorias" aria-label="Default select example" id="selectCategoria-Op">
-          <!-- <option value="COMIDAS">Comidas</option>
-          <option value="SERVICIOS">Servicios</option>
-          <option value="SALIDAS">Salidas</option>
-          <option value="EDUCACION">Educación</option>
-          <option value="TRANSPORTE">Transporte</option>
-          <option value="TRABAJO">Trabajo</option> -->
         </select>
       </div>
 
@@ -222,14 +242,14 @@
 
       </div>
 
-      </section>
+  </section>
 
 
 <!-- Apartado Editar Operación -->
 
 <section class="section-nuevaop">
 
-  <div class="d-none col-8 nuevaop-container" id="vistaEditarOperacion">
+  <div class="d-none col-lg-8 col-md-12 col-sm-12 nuevaop-container" id="vistaEditarOperacion">
 
     <h2 class="card-title categorias-titulo">Editar Operación</h2>
 
@@ -254,12 +274,6 @@
    <div class="mb-3 nueva-operacion">
     <h6 for="exampleFormControlInput1" class="form-label categoria-nueva-op">Categoría</h6>
     <select class="form-select select-categorias" aria-label="Default select example" id="inputEditarCategoria">
-      <!-- <option value="COMIDAS">Comidas</option>
-      <option value="SERVICIOS">Servicios</option>
-      <option value="SALIDAS">Salidas</option>
-      <option value="EDUCACION">Educación</option>
-      <option value="TRANSPORTE">Transporte</option>
-      <option value="TRABAJO">Trabajo</option> -->
     </select>
   </div>
 
@@ -275,7 +289,7 @@
       <button type="button" class="btn btn-outline-secondary btn-cancelar" id="btnCancelarEditado">Cancelar</button>
       <button type="button" class="btn btn-outline-success" id="btnEditarOperacion">Editar</button>
    </div>
-
+   </div>
   </div>
 
   </section>
@@ -284,7 +298,7 @@
 
 <section class="section-categorias pt-1" id="section-categorias">
 
-   <div class="d-none col-6 categorias-container" id="vistaCategorias">
+   <div class="d-none col-lg-6 col-md-8 col-sm-10 categorias-container" id="vistaCategorias">
     <div class="p-4 border bg-light">
       <div class="card-body">
         <h3 class="card-title categorias-titulo">Categorías</h3>
@@ -296,60 +310,6 @@
         </div>
         
         <div class="listaCategorias" id="listaCategorias">
-          <!-- <div class="categorias-div">
-          <div>
-          <p class="card-text cat1">Comida</p>
-        </div>
-        <div class="btn-editar-borrar">
-          <p class="editar-p"><a href="#">Editar</a></p>
-          <p class="borrar-p"><a href="#">Borrar</a></p>
-        </div>
-        </div>
-        <div class="categorias-div">
-          <div>
-          <p class="card-text cat2">Servicios</p>
-        </div>
-        <div class="btn-editar-borrar">
-          <p class="editar-p"><a href="#">Editar</a></p>
-          <p class="borrar-p"><a href="#">Borrar</a></p>
-        </div>
-        </div>
-        <div class="categorias-div">
-          <div>
-          <p class="card-text cat3">Salidas</p>
-        </div>
-        <div class="btn-editar-borrar">
-          <p class="editar-p"><a href="#">Editar</a></p>
-          <p class="borrar-p"><a href="#">Borrar</a></p>
-        </div>
-        </div>
-        <div class="categorias-div">
-          <div>
-          <p class="card-text cat4">Educación</p>
-        </div>
-        <div class="btn-editar-borrar">
-          <p class="editar-p"><a href="#">Editar</a></p>
-          <p class="borrar-p"><a href="#">Borrar</a></p>
-        </div>
-        </div>
-        <div class="categorias-div">
-          <div>
-          <p class="card-text cat5">Transporte</p>
-        </div>
-        <div class="btn-editar-borrar">
-          <p class="editar-p"><a href="#">Editar</a></p>
-          <p class="borrar-p"><a href="#">Borrar</a></p>
-        </div>
-        </div>
-        <div class="categorias-div">
-          <div>
-          <p class="card-text cat6">Trabajo</p>
-        </div>
-        <div class="btn-editar-borrar">
-          <p class="editar-p"><a href="#">Editar</a></p>
-          <p class="borrar-p"><a href="#">Borrar</a></p>
-        </div>
-        </div> -->
         </div>
     
       </div>
@@ -362,7 +322,7 @@
 
 <section class="section-editar-categorias">
 
-  <div class="d-none col-6 categorias-container" id="vistaEditarCategorias">
+  <div class="d-none col-lg-6 col-md-8 col-sm-10 categorias-container" id="vistaEditarCategorias">
     <div class="p-4 border bg-light">
       <div class="card-body">
         <h3 class="card-title categorias-titulo">Editar categoría</h3>
@@ -376,7 +336,9 @@
           <button type="button" class="btn btn-outline-secondary btn-cancelar" id="cancelar-categoria">Cancelar</button>
           <button type="button" class="btn btn-outline-success" id="confirmar-categoria">Editar</button>
        </div>
-      
+       </div>
+      </div>
+    </div>
 
 </section>
 
@@ -385,7 +347,7 @@
 <section class="section-reportes" id="section-reportes"> 
 
 
-<div class="d-none col-8" id="vistaReportes">
+<div class="d-none col-lg-8 col-md-10 col-sm-12" id="vistaReportes">
   <div class="p-3 border bg-light operaciones-container">
     <div class="card-body">
         <div class="operaciones-div">
@@ -401,64 +363,66 @@
         </div>
       </div>
 
-      <div class="con-reportes" id="con-reportes">
+      <div class="con-reportes" id="con-reportes"></div>
+
+
 
         <!-- RESUMEN -->
 
-        <section id="resumen">
-        <h4>Resumen</h4>
+<section id="resumen">
+        <h4 class="mb-4">Resumen</h4>
 
         <!-- Categoría con mayor ganancia -->
 
         <div class="d-flex flex-row">
-        <div class="col-4">
+        <div class="col-6 fw-bold">
             Categoría con mayor ganancia
           </div>
-          <div id="categoria-mayor-ganancia" class="col-8 d-flex flex-row align-items-center">
+          <div id="categoria-mayor-ganancia" class="col-12 d-flex flex-row align-items-center">
           </div>
         </div>
 
 
         <!-- Categoría con mayor gasto -->
         <div class="d-flex flex-row">
-          <div class="col-4">
+          <div class="col-6 fw-bold">
             Categoría con mayor gasto
           </div>
-          <div id="categoria-mayor-gasto" class="col-8 d-flex flex-row align-items-center">
+          <div id="categoria-mayor-gasto" class="col-12 d-flex flex-row align-items-center">
           </div>
         </div>
 
         <!-- Categoría con mayor balance -->
         <div class="d-flex flex-row">
-          <div class="col-4">
+          <div class="col-6 fw-bold">
             Categoría con mayor balance
           </div>
-          <div id="categoria-mayor-balance" class="col-8 d-flex flex-row align-items-center">
+          <div id="categoria-mayor-balance" class="col-12 d-flex flex-row align-items-center">
           </div>
         </div>        
 
         <!-- Mes con mayor ganancia -->
         <div class="d-flex flex-row">
-          <div class="col-4">
+          <div class="col-6 fw-bold">
             Mes con mayor ganancia
           </div>
-          <div id="mes-mayor-ganancia" class="col-8 d-flex flex-row align-items-center">
+          <div id="mes-mayor-ganancia" class="col-12 d-flex flex-row align-items-center">
           </div>
         </div>      
         
         <!-- Mes con mayor gasto -->
         <div class="d-flex flex-row">
-          <div class="col-4">
+          <div class="col-6 fw-bold">
             Mes con mayor gasto
           </div>
-          <div id="mes-mayor-gasto" class="col-8 d-flex flex-row align-items-center">
+          <div id="mes-mayor-gasto" class="col-12 d-flex flex-row align-items-center">
           </div>
         </div> 
       </section>
 
       <!-- TOTALES POR CATEGORIA -->
         <section>
-          <h4>
+          <h4 class="mt-4">
             Totales por categoría
           </h4>
           <div id="reportes-categorias">
@@ -474,7 +438,7 @@
 
       <!-- TOTALES POR MES -->
         <section>
-          <h4>
+          <h4 class="mt-4">
             Totales por mes
           </h4>
           <div id="reportes-mes">

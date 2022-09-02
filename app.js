@@ -3,6 +3,10 @@ const vistaCategorias =document.getElementById('vistaCategorias');
 const vistaReportes =document.getElementById('vistaReportes');
 const vistaNuevaOperacion = document.getElementById('vistaNuevaOperacion');
 
+const linkBalances = document.getElementById('link-balance')
+const linkCategorias = document.getElementById('link-categorias')
+const linkReportes = document.getElementById('link-reportes')
+
 const sinReportes = document.getElementById('sin-reportes');
 const conReportes = document.getElementById('con-reportes');
 
@@ -83,6 +87,8 @@ const mostrarOperaciones = (arr) => {
     }
 }
 
+/*Agrega eventos a botones del Navbar*/
+
 
  btnCategorias.addEventListener('click', () => {
       vistaBalance.classList.add('d-none');
@@ -113,6 +119,7 @@ const mostrarOperaciones = (arr) => {
 })
 
 btnBalance.addEventListener('click', () => {
+    console.log(btnBalance)
     vistaBalance.classList.remove('d-none');
     vistaReportes.classList.add('d-none');
     vistaCategorias.classList.add('d-none');
@@ -131,6 +138,40 @@ btnCancelarNuevaOp.addEventListener('click', () => {
     vistaNuevaOperacion.classList.add('d-none');
 
 })
+
+/*Agrega eventos a links del btn burguer*/
+
+linkBalances.addEventListener('click', ()=>{
+    vistaBalance.classList.remove('d-none');
+    vistaReportes.classList.add('d-none');
+    vistaCategorias.classList.add('d-none');
+    vistaNuevaOperacion.classList.add('d-none');
+})
+
+linkCategorias.addEventListener('click',()=>{
+    vistaBalance.classList.add('d-none');
+      vistaReportes.classList.add('d-none');
+      vistaCategorias.classList.remove('d-none');
+      vistaNuevaOperacion.classList.add('d-none');
+})
+
+linkReportes.addEventListener('click', ()=>{
+    vistaBalance.classList.add('d-none');
+    vistaReportes.classList.remove('d-none');
+    vistaCategorias.classList.add('d-none');
+    vistaNuevaOperacion.classList.add('d-none');
+
+    if(!operaciones.length){
+        conReportes.classList.add('d-none');
+        sinReportes.classList.remove('d-none');
+    } else {
+        conReportes.classList.remove('d-none');
+        sinReportes.classList.add('d-none');
+
+    }
+})
+
+
 
 
 /*Funcionalidad de apretar botón de agregar nueva operación*/
@@ -188,7 +229,7 @@ btnAgregarNuevaOp.addEventListener('click', ()=>{
         str = str +
         `<div class="row pt-3">
         <span class="col-3">${descripcion}</span>
-        <span class="col-2"><p class="cat1">${categoria}</p></span>
+        <span class="col-2"><p class="cat1"><i class="fa-solid fa-tag"></i>${categoria}</p></span>
         <span class="col-3">${fecha}</span>
         <span class="col-2 ${tipo === 'GANANCIA' ? 'green': 'red'}">$${monto}</span> 
         <span class="col-2">
@@ -200,6 +241,8 @@ btnAgregarNuevaOp.addEventListener('click', ()=>{
         document.getElementById('listaOperaciones').innerHTML= str;
 
         totalesBalance(operaciones);
+
+        
 
     })
 
@@ -465,7 +508,7 @@ let categorias = JSON.parse(localStorage.getItem('categorias')) || [
     listaCategorias.innerHTML +=
     `<div class="categorias-div">
     <div>
-        <p class="card-text cat1">${nuevaCategoria.nombre}</p>
+        <p class="card-text cat1"><i class="fa-solid fa-tag"></i>${nuevaCategoria.nombre}</p>
     </div>
     <span class="col-2">
     <a href="#" class="editar-cat" data-id=${nuevaCategoria.id}>Editar</a>
@@ -498,7 +541,7 @@ const cargarSelects = () =>{
     
             str +=`<div class="categorias-div">
             <div>
-            <p class="card-text cat1">${categoria.nombre}</p>
+            <p class="card-text cat1"><i class="fa-solid fa-tag"></i>${categoria.nombre}</p>
             </div>
             <span class="col-2">
             <a href="#" class="editar-cat" data-id=${categoria.id}>Editar</a>
@@ -611,8 +654,10 @@ const categoriaMayorGanancia = (operaciones) => {
         (a,b) => Number(b.monto) - Number(a.monto))
 
             str = str +
-            `<div class="col-4 cat1">${porCategoriaGananciaResumen[0].categoria}</div>
-            <div class="col-4 green">$${porCategoriaGananciaResumen[0].monto}</div>`
+            `
+            <div class="col-3"><p class="card-text cat1"><i class="fa-solid fa-tag"></i>${porCategoriaGananciaResumen[0].categoria}</p></div>
+            <div class="col-3"><p class="green">$${porCategoriaGananciaResumen[0].monto}</p></div>
+            `
 
             document.getElementById('categoria-mayor-ganancia').innerHTML= str;
     
@@ -628,8 +673,8 @@ const categoriaMayorGasto = (operaciones) => {
             (a,b) => Number(b.monto) - Number(a.monto))
         
                 str = str +
-                `<div class="col-4 cat1">${porCategoriaGastoResumen[0].categoria}</div>
-                <div class="col-4 red">$${porCategoriaGastoResumen[0].monto}</div>`
+                `<div class="col-3"><p class="card-text cat1"><i class="fa-solid fa-tag"></i>${porCategoriaGastoResumen[0].categoria}</p></div>
+                <div class="col-3"><p class="red">$${porCategoriaGastoResumen[0].monto}</p></div>`
         
                 document.getElementById('categoria-mayor-gasto').innerHTML= str;
             
@@ -645,12 +690,12 @@ const mesMayorOperacion = (operaciones) =>{
     const mayorGasto = mayorMonto.filter((operacion)=> operacion.tipo === 'GASTO');
 
     document.getElementById('mes-mayor-ganancia').innerHTML= `
-    <div class="col-4 cat1">${mayorGanancia[0].fecha.split('-')[1]}</div>
-    <div class="col-4 green">$${mayorGanancia[0].monto}</div>`
+    <div class="col-3"><p class="cat1">${mayorGanancia[0].fecha.split('-')[1]}</p></div>
+    <div class="col-3"><p class="green">$${mayorGanancia[0].monto}</p></div>`
 
     document.getElementById('mes-mayor-gasto').innerHTML= `
-    <div class="col-4 cat1">${mayorGasto[0].fecha.split('-')[1]}</div>
-    <div class="col-4 red">$${mayorGasto[0].monto}</div>`
+    <div class="col-3"><p class="cat1">${mayorGasto[0].fecha.split('-')[1]}</p></div>
+    <div class="col-3"><p class="red">$${mayorGasto[0].monto}</p></div>`
 
 }
 
@@ -671,10 +716,10 @@ const totalPorCategoria = (operaciones, categorias) => {
 
       reportesCategorias.innerHTML+=
       `<div class="row pt-3">
-      <span class="col-3">${categoriasNombre}</span>
-      <span class="col-3"><p>${porCategoriaGanancia}</p></span>
-      <span class="col-3">${porCategoriaGasto}</span>
-      <span class="col-3">${totalPorCategoriaBalance}</span> 
+      <div class="col-3"><p class="cat1"><i class="fa-solid fa-tag"></i>${categoriasNombre}</p></div>
+      <div class="col-3"><p class="green">$${porCategoriaGanancia}</p></div>
+      <div class="col-3"><p class="red">$${porCategoriaGasto}</p></div>
+      <div class="col-3"><p>$${totalPorCategoriaBalance}</p></div> 
       </div>`
 
       return{
@@ -688,8 +733,8 @@ const totalPorCategoria = (operaciones, categorias) => {
     const result = conBalance.sort((a,b)=> b.balance - a.balance)
 
     document.getElementById('categoria-mayor-balance').innerHTML +=`
-    <div class="col-4 cat1">${result[0].nombre}</div>
-    <div class="col-4">$${result[0].balance}</div>`
+    <div class="col-3"><p class="cat1"><i class="fa-solid fa-tag"></i>${result[0].nombre}</p></div>
+    <div class="col-3"><p>$${result[0].balance}</p></div>`
 
   }
 
@@ -713,10 +758,10 @@ const totalPorCategoria = (operaciones, categorias) => {
 
         reportesMes.innerHTML+=
         `<div class="row pt-3">
-        <span class="col-3">${meses}</span>
-        <span class="col-3"><p>${porTipoGanancia}</p></span>
-        <span class="col-3">${porTipoGasto}</span>
-        <span class="col-3">${totalPorMesBalance}</span> 
+        <div class="col-3 fw-bold">${meses}</div>
+        <div class="col-3"><p class="green">$${porTipoGanancia}</p></div>
+        <div class="col-3"><p class="red">$${porTipoGasto}</p></div>
+        <div class="col-3"><p>$${totalPorMesBalance}</p></div> 
         </div>`
     }
 

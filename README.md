@@ -14,3 +14,8 @@
 
 ## Herramientas utilizadas ##    
 *HTML5 - CCS3 - BOOTSTRAP - JAVASCRIPT - GIT*
+
+## Pseudocódigo y Diagrama de Flujo ##    
+
+![Pseudocódigo](https://github.com/RocioCodo/AhorrAdas/blob/pseudocodigo-y-dfd/pseudocodigo.PNG)
+![Diagrama de Flujo](https://github.com/RocioCodo/AhorrAdas/blob/pseudocodigo-y-dfd/diagrama-de-flujo.PNG)

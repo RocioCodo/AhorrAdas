@@ -314,6 +314,8 @@ a {
   color: black;
 }
 
+
+
 /******************************************
                  RESPONSIVE
 ******************************************/
@@ -337,3 +339,28 @@ a {
     height: auto !important;
   }
 }
+
+
+@media screen and (max-width: 576px) {
+  .operaciones-fecha {
+    display: none;
+  }
+
+  .operaciones-div{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .span-botones{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .div-oper{
+    font-size: 12px;
+  }
+
+  .div-oper i{
+    display: none;
+  }
+} 

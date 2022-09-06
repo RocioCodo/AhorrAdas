@@ -214,14 +214,14 @@ const pintarOperaciones = (arr) => {
 
     str =
       str +
-      `<div class="row pt-3">
+      `<div class="row pt-3 div-oper">
         <span class="col-3">${descripcion}</span>
         <span class="col-2"><p class="cat1"><i class="fa-solid fa-tag"></i>${categoria}</p></span>
-        <span class="col-3">${fecha}</span>
+        <span class="col-3 operaciones-fecha">${fecha}</span>
         <span class="col-2 ${
           tipo === "GANANCIA" ? "green" : "red"
         }">$${monto}</span> 
-        <span class="col-2">
+        <span class="col-2 span-botones">
         <a href="#" class="editar-p" data-id=${id}>Editar</a>
         <a href="#" class="borrar-p" data-id=${id}>Borrar</a>
         </span>
